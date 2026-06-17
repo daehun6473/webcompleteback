@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kdh.javaServer3.BookMgmt.mapper.BookMapper">
+
+    <select id="getBookList" resultType="com.kdh.javaServer3.BookMgmt.model.Book">
+        SELECT ent_id AS bookNo,
+                  title
+                , author
+                , publisher
+                , pub_date AS pubDate
+                , reg_date AS regDate
+                , book_type AS dataType
+                , state
+        FROM book
+        <if test="bookNm != null and bookNm != ''">
+            WHERE title LIKE CONCAT('%', #{bookNm}, '%')
+        </if>
+    </select>
+
+    <select id="getBookDetail" resultType="com.kdh.javaServer3.BookMgmt.model.Book">
+        SELECT ent_id AS bookNo
+        , title
+        , author
+        , publisher
+        , pub_date AS pubDate
+        , reg_date AS regDate
+        , book_type AS dataType
+        , lib_No AS libNo
+        , posi
+        , clas
+        , auth
+        , vol
+        , price
+        , state
+        FROM book
+        <if test="bookNo != null and bookNo != ''">
+            WHERE ent_id = #{bookNo}
+        </if>
+    </select>
+
+    <insert id="insertBook" parameterType="com.kdh.javaServer3.BookMgmt.model.Book">
+
+        <selectKey keyProperty="bookNo"
+                   resultType="String"
+                   order="BEFORE">
+
+            SELECT COALESCE(MAX(ent_id)::integer,0)+1
+            FROM book
+
+        </selectKey>
+
+        INSERT INTO book (
+                           ent_id
+                         ,title
+                         ,author
+                         ,publisher
+                         ,pub_date
+                         ,reg_date
+                         ,lib_no
+                         ,mark_no
+                         ,posi
+                         ,clas
+                         ,auth
+                         ,vol
+                         ,price
+                         ,state
+                         ,book_id
+                         ,book_sec
+                         ,book_type
+                         ,book_no
+        )
+        values (
+                #{bookNo}
+               ,#{title}
+               ,#{author}
+               ,#{publisher}
+               ,#{pubDate}
+                ,TO_CHAR(NOW(), 'YYYYMMDD')
+               ,#{libNo}
+               ,#{markNo}
+               ,#{posi}
+               ,#{clas}
+               ,#{auth}
+               ,#{vol}
+               ,#{price}
+               ,#{state}
+               ,#{bookId}
+               ,#{bookSec}
+               ,#{dataType}
+               ,#{bookNo}
+               )
+    </insert>
+</mapper>
