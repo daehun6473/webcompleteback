@@ -10,7 +10,10 @@ import java.util.Map;
 public interface BookMapper {
 
     List<Book> getBookList(Map<String, Object> params);
+    int getBookListCount(Map<String, Object> params);
     List<Book> getBookDetail(Map<String, Object> params);
     void insertBook(Map<String, Object> params);
+    void deleteBook(Map<String, Object> params);
+    void updateBook(Map<String, Object> params);
 
 }

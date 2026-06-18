@@ -17,9 +17,15 @@ public class BookServiceImpl implements BookService {
     private final BookMapper bookMapper;
 
     @Override
-    public List<Book> getBookList(Map<String, Object> param) {
+    public Map<String, Object> getBookList(Map<String, Object> param) {
+        List<Book> list = bookMapper.getBookList(param);
+        int totalCount = bookMapper.getBookListCount(param);
 
-        return bookMapper.getBookList(param);
+        Map<String, Object> result = new HashMap<>();
+        result.put("books", list);
+        result.put("totalCount", totalCount);
+
+        return result;
 
     }
 
@@ -31,10 +37,24 @@ public class BookServiceImpl implements BookService {
     }
 
 
-        @Override
-        public void insertBook(Map<String, Object> params) {
+    @Override
+    public void insertBook(Map<String, Object> params) {
 
             bookMapper.insertBook(params);
 
-        }
+    }
+
+    @Override
+    public void deleteBook(Map<String, Object> params) {
+
+        bookMapper.deleteBook(params);
+
+    }
+
+    @Override
+    public void updateBook(Map<String, Object> params) {
+
+        bookMapper.updateBook(params);
+
+    }
 }

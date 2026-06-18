@@ -29,4 +29,8 @@ public class Book {
     private String bookId;
     private String bookSec;
 
+    private int page;
+    private int totalCount;
+    private int count;
+
 }

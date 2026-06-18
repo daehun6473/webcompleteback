@@ -20,7 +20,7 @@ public class BookController {
 
 
     @GetMapping("/books")
-    public List<Book> getBookList(
+    public Map<String, Object> getBookList(
             @RequestParam(required = false) String bookNm) {
 
         Map<String, Object> param = new HashMap<>();
@@ -62,6 +62,42 @@ public class BookController {
             params.put("dataType", book.getDataType()); //자료 구분
 
             bookService.insertBook(params);
+            return ResponseEntity.ok().build();
+
+        }catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PostMapping("/deleteBook")
+    public ResponseEntity<List<Book>> deleteBook(@RequestBody Book book){
+        try{
+            Map<String, Object> params = new HashMap<>();
+            params.put("bookNo", book.getBookNo());
+
+            bookService.deleteBook(params);
+            return ResponseEntity.ok().build();
+
+        }catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PostMapping("/updateBook")
+    public ResponseEntity<List<Book>> updateBook(@RequestBody Book book){
+        try{
+            Map<String, Object> params = new HashMap<>();
+            params.put("bookNo", book.getBookNo());// 도서번호
+            params.put("libNo", book.getLibNo()); //기관번호
+            params.put("posi", book.getPosi()); // 별치기호
+            params.put("clas", book.getClas()); // 분류기호
+            params.put("auth", book.getAuth()); // 도서기호
+            params.put("vol", book.getVol()); // 권책기호
+            params.put("price", book.getPrice()); // 가격
+            params.put("state", book.getState()); // 소장 상태
+            bookService.updateBook(params);
             return ResponseEntity.ok().build();
 
         }catch(Exception e){
